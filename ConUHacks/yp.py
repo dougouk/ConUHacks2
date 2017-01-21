@@ -31,9 +31,10 @@ def get_rest(food, location):
 
     for x in json_obj['searchResult'][0]["merchants"]:
         print(x['businessName'])
-        
+        print(x['address']['displayLine'])
+
     return json_obj['searchResult'][0]["merchants"]
 
-
-
-get_rest("burger","45.4754418,-73.5863705")
+def match_menu(restaurants, food):
+    food_items = []
+    diction = {"pager":{"total":0,"count":5,"total_on_page":0,"total_pages":0,"page":1},"filters":{"lang":"en","show":"deal","merchant_yp_id":"100448116"},"timingInfo":{"sphinx_time":"0.006","total_action_time":"0.05"},"data":[]}
