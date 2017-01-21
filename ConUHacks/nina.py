@@ -32,7 +32,7 @@ nlu_headers = {
 
 nlu_data = {
     "appName": "ConUHacks",
-    "cloudModelVersion": "1.0.2",
+    "cloudModelVersion": "1.0.3",
     "companyName": "ConUDougOuk",
     "nlu_engine": "NLE",
     "text": "I want to choose this one"
