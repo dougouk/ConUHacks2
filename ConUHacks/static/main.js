@@ -33,7 +33,7 @@ function getNLU(text) {
 }
 
 function gotNext() {
-    var imgsrc = document.getElementById("food").src;
+    var imgsrc = $('food').attr('src');
     $.post("/image", {imgsrc: imgsrc}, function (data){
         console.log("Got Next: ");
     });

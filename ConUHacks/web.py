@@ -1,8 +1,19 @@
 import json
 
 from flask import Flask, request
-
 from .nina import text_to_speech, text_to_NLU
+from clarifai.rest import ClarifaiApp
+
+app = ClarifaiApp()
+
+def getImageTags(url):
+	output=app.tag_urls([url]
+		,model='food-items-v1.0')['outputs'][0]['data']['concepts']
+	list=[]
+	for name in output:
+		list.append(name['name'])
+	return list
+
 
 app = Flask(__name__)
 
@@ -17,7 +28,7 @@ def nlu():
 
 @app.route('/image', methods=['POST'])
 def image():
-	print(request.form['imagesrc'])
+	print(request.form['imgsrc'])
 	return "hi"
 
 @app.route('/')
