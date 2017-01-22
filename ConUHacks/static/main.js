@@ -30,6 +30,27 @@ function getNLU(text) {
     });
 }
 
+function playAudio(text) {
+    var request = new XMLHttpRequest();
+
+    request.open("POST", "/tts", true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.responseType = "arraybuffer";
+
+    request.send(JSON.stringify({
+        text: text,
+    }));
+
+    request.onreadystatechange = function(event) {
+        if (request.readyState === 4 && request.status === 200) {
+            var arrayBuffer = request.response;
+            if (arrayBuffer) {
+                audioPlayer.play(arrayBuffer);
+            }
+        }
+    };
+}
+
 function initWebSocket() {
 
     socket = new WebSocket("wss://" + sHost + ":" + sPort + "/" + socketPath); // The WebSocket must be secure "wss://"
@@ -573,36 +594,6 @@ function dialogNCE() {
             }
         }));
         currentCommand = "NinaDoDialog_NCE";
-    }
-}
-
-function playAudio() {
-
-    if (!$("#playaudio_button").hasClass("disabled")) {
-        $('#playaudio_results').text("");
-
-        var inputText = fixLineBreaks($("#playaudio_text").val());
-        var engine = document.getElementById("playaudio_sr_engine").value;
-        var mode = document.getElementById("playaudio_nte_mode").value;
-
-        socket.send(JSON.stringify({
-            command: {
-                name: "NinaPlayAudio",
-                logSecurity: $('#tts_logSecurity')[0].value,
-                text: inputText,
-                tts_type: "text",
-                "barge-in": $('#barge-in')[0].checked,
-                sr_engine: engine,
-                sr_engine_parameters: {"operating_mode":mode}
-            }
-        }));
-        currentCommand = "NinaPlayAudio";
-
-        if ($('#barge-in')[0].checked) {
-            ui_startBargeIn();
-            currentCommand = "NinaPlayAudioWithBargeIn";
-            record();
-        }
     }
 }
 
