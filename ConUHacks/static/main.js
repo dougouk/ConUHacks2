@@ -53,7 +53,7 @@ function initWebSocket() {
     };
 
     socket.onclose = function () {
-        console.log("EbSocket connection closed.");
+        console.log("WebSocket connection closed.");
     };
 
     socket.onmessage = function (event) {
@@ -260,19 +260,19 @@ function initWebSocket() {
                 }
                 else alert(JSON.stringify(response));
             }
-            else if (response.QueryInfo)
-            {
-                if (response.QueryInfo.result_type === "NinaStartSession") {
-                    if (response.QueryInfo.info.niwAgent)
-                        $('#agent_url')[0].value = response.QueryInfo.info.niwAgent
-                    if (response.QueryInfo.info.companyName)
-                        $('#company_name')[0].value = response.QueryInfo.info.companyName;
-                    if (response.QueryInfo.info.appName)
-                        $('#application_name')[0].value = response.QueryInfo.info.appName;
-                    if (response.QueryInfo.info.grammarVersion)
-                        $('#nes_version')[0].value = response.QueryInfo.info.grammarVersion;
-                }
-            }
+            // else if (response.QueryInfo)
+            // {
+            //     if (response.QueryInfo.result_type === "NinaStartSession") {
+            //         if (response.QueryInfo.info.niwAgent)
+            //             $('#agent_url')[0].value = response.QueryInfo.info.niwAgent
+            //         if (response.QueryInfo.info.companyName)
+            //             $('#company_name')[0].value = response.QueryInfo.info.companyName;
+            //         if (response.QueryInfo.info.appName)
+            //             $('#application_name')[0].value = response.QueryInfo.info.appName;
+            //         if (response.QueryInfo.info.grammarVersion)
+            //             $('#nes_version')[0].value = response.QueryInfo.info.grammarVersion;
+            //     }
+            // }
             else if (response.VocalPassword)
             {
                 $('#vp_results').text(JSON.stringify(response, null, 4));
