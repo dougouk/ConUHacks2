@@ -10,7 +10,7 @@ var nmaidKey = "0d11e9c5b897eefdc7e0aad840bf4316a44ea91f0d76a2b053be294ce95c7439
 // For the NinaStartSession COMMAND message. All set in the startSession() index.html page
 var appName = "ConUHacks";
 var companyName = "ConUDougOuk";
-var cloudModelVersion = "1.0.4";
+var cloudModelVersion = "1.0.6";
 var clientAppVersion = "0.1.0";
 var defaultAgent;
 
@@ -25,9 +25,7 @@ var currentCommand;
 var socket;
 
 function getNLU(text) {
-    $.post("/nlu", {
-        text: text,
-    }, function(data) {
+    $.post("/nlu", {text: text}, function (data) {
         console.log(data);
     });
 }

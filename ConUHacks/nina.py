@@ -64,4 +64,5 @@ def text_to_NLU(text):
 
     nlu_r = requests.post("https://nim-rd.nuance.mobi:9443/nina-webapi/NinaDoNLU/", headers=nlu_headers, data=json.dumps(nlu_data))
 
-    return nlu_r
+    # assume it works
+    return nlu_r.json()['QueryResult']['results'][0]['intent']
