@@ -51,11 +51,11 @@ def tts():
     return text_to_speech(request.get_json()['text'])
 
 @app.route('/nlu_next_text', methods=['POST'])
-def nlu():
+def nlu_next():
     return json.dumps({'intent':'NEXT_IMAGE'})
 
 @app.route('/nlu_this_test', methods=['POST'])
-def nlu():
+def nlu_this():
     return json.dumps({'intent':'THIS_IMAGE'})
 
 @app.route('/nlu', methods=['POST'])
