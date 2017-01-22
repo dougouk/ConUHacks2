@@ -1,4 +1,6 @@
-# ConUHacks2
+# foody food finder
+
+![logo](ConUHacks/image/logo_trans.png?raw=true)
 
 ## envrironment setup
 
@@ -11,6 +13,6 @@ pip3 install -r requirements.txt
 ## running web app locally
 
 ```shell
-gunicorn ConUHacks.web:app --timeout 120
+gunicorn ConUHacks.web:app
 open http://localhost:8000/
 ```
