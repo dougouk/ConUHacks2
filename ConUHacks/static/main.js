@@ -34,6 +34,7 @@ function getNLU(text) {
         if (data.intent === "NEXT_IMAGE") {
             console.log("Showing next image.");
             gotNext();
+            startSRRecording();
         } else if (data.intent === "CHOOSE_IMAGE") {
             getInfo();
         }
@@ -46,7 +47,7 @@ function test(){
 }
 
 function getInfo() {
-    playAudio('what about this one');
+    playAudio('you got it bro');
     console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imageNum}, function (data){
         console.log("Got Next: "+ data);
@@ -55,7 +56,7 @@ function getInfo() {
 }
 
 function gotNext() {
-    playAudio('you got it bro');
+    playAudio('what about this one');
     document.getElementById("food").src=function(){
         if (imageNum < 5) imageNum++;
         else imageNum = 1;
