@@ -54,12 +54,12 @@ function test(){
 }
 
 function getInfo() {
-    playAudio('you got it bro');
     console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imageNum}, function (data){
         console.log("Got Next: "+ data);
         googleMaps(data);
     });
+    playAudio('you got it bro');
 }
 
 function gotNext() {
@@ -1331,10 +1331,14 @@ function googleMaps(address){
   window.open(mapURL, "_blank");
 }
 
+function init() {
+    initWebSocket();
+    // playAudio('welcome foody food finder');
+}
 
 $(document).ready(function() {
-    initWebSocket();
-    playAudio('welcome foody food finder');
+    // initWebSocket();
+    // playAudio('welcome foody food finder');
 
     // startSRRecording();
     // stopRecording();
