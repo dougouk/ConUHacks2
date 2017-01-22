@@ -34,7 +34,7 @@ function getNLU(text) {
         if (data.intent === "NEXT_IMAGE") {
             console.log("Showing next image.");
             gotNext();
-        } else if (data.intent === "THIS_IMAGE") {
+        } else if (data.intent === "CHOOSE_IMAGE") {
             getInfo();
         }
         // playAudio(data.literal);
