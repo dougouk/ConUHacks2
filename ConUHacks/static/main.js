@@ -39,7 +39,6 @@ function getNLU(text) {
             getInfo();
         } else {
             playAudio('I did not understand that');
-            stopRecording();
             startSRRecording();
         }
         // playAudio(data.literal);
