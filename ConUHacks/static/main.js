@@ -148,6 +148,9 @@ function initWebSocket() {
                     else if (currentCommand == "NinaEnrollUser" || currentCommand == "NinaAuthenticateUser") {
                         $('#vp_results').text(JSON.stringify(response, null, 4));
                     }
+                    else if (response.ControlData === "beginning-of-speech") {
+                        console.log("----------------------> beginning-of-speech");
+                    }
                     else console.log("Alert: " + JSON.stringify(response));
                 }
                 else if (response.ControlData === "end-of-speech") {
@@ -183,6 +186,10 @@ function initWebSocket() {
                         $('#vp_results').text(JSON.stringify(response, null, 4));
                         vpStopAuthenticateRecording();
                     }
+                    else if (response.ControlData === "end-of-speech") {
+                        console.log("----------------------> end-of-speech");
+                        stopRecording();
+                    }
                     else console.log("Alert: " + JSON.stringify(response));
                 }
                 else console.log("Alert: " + JSON.stringify(response));
@@ -210,7 +217,7 @@ function initWebSocket() {
                     currentCommand = null;
                 }
                 else if (response.QueryResult.result_type === "NinaDoNTE" && response.QueryResult.transcription) {
-                    console.log("Getting NLU.");
+                    console.log("Getting NLU for: " + response.QueryResult.transcription);
                     getNLU(response.QueryResult.transcription);
                 }
                 else if ($.inArray(response.QueryResult.result_type, ["NinaDoMREC", "NinaDoNTE", "NinaDoNR"]) >= 0 ) {
@@ -1299,13 +1306,19 @@ function uploadDynamicVocab() {
 //   return pos;
 // }
 
-
+function googleMaps(address){
+  var adrURL = address.split(' ').join('+');
+  var mapURL = "https://www.google.ca/maps/place/" + adrURL
+  window.open(mapURL, "_blank");
+}
 
 
 $(document).ready(function() {
-    //initWebSocket();
-    //playAudio('welcome to foody');
+    initWebSocket();
+    // playAudio('welcome foody');
 
     // startSRRecording();
     // stopRecording();
+
+
 });
