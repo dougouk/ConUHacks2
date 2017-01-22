@@ -26,6 +26,7 @@ var socket;
 
 function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
+        playAudio(data);
         console.log(data);
     });
 }
@@ -78,6 +79,8 @@ function initWebSocket() {
         }));
 
         currentCommand = "NinaStartSession";
+
+        startSRRecording();
     };
 
     socket.onclose = function () {
@@ -1262,3 +1265,11 @@ function uploadDynamicVocab() {
     }));
     currentCommand = "UploadDynamicVocabulary";
 }
+
+$(document).ready(function() {
+    initWebSocket();
+    playAudio('welcome to foody');
+
+    // startSRRecording();
+    // stopRecording();
+});
