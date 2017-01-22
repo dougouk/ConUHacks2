@@ -37,6 +37,10 @@ function getNLU(text) {
             startSRRecording();
         } else if (data.intent === "CHOOSE_IMAGE") {
             getInfo();
+        } else {
+            playAudio('I did not understand that');
+            stopRecording();
+            startSRRecording();
         }
         // playAudio(data.literal);
     });
