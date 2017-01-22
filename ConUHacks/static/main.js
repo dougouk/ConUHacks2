@@ -28,16 +28,10 @@ function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
         console.log("Got NLU: " + data);
         data = JSON.parse(data);
-        //playAudio(data.literal);
+        playAudio(data.literal);
     });
 }
 
-function gotNext() {
-    var imgsrc = $('food').attr('src');
-    $.post("/image", {imgsrc: imgsrc}, function (data){
-        console.log("Got Next: ");
-    });
-}
 
 function playAudio(text) {
     var request = new XMLHttpRequest();
@@ -1274,6 +1268,20 @@ function uploadDynamicVocab() {
     }));
     currentCommand = "UploadDynamicVocabulary";
 }
+
+// function get_localisation(){
+//   navigator.geolocation.getCurrentPosition(function(position) {
+//           var pos = {
+//             lat: position.coords.latitude,
+//             lng: position.coords.longitude
+//           };
+//         });
+//   console.log(pos);
+//   return pos;
+// }
+
+
+
 
 $(document).ready(function() {
     //initWebSocket();
