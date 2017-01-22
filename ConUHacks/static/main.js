@@ -24,6 +24,9 @@ var currentCommand;
 // The WebSocket
 var socket;
 
+// current food image
+var imageNum = 1;
+
 function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
         console.log("Got NLU: " + data);
@@ -32,8 +35,17 @@ function getNLU(text) {
     });
 }
 
+function test(){
+    console.log("test");
+}
+
 function gotNext() {
-    var imgsrc = $('food').attr('src');
+    var imgsrc = $('food').attr('src', function(){
+        if (imageNum < 5) imageNum++;
+        else imageNum = 1;
+        return '/static/images/' + imageNum + '.jpg';
+    });
+    console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imgsrc}, function (data){
         console.log("Got Next: ");
     });
