@@ -28,7 +28,14 @@ function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
         console.log("Got NLU: " + data);
         data = JSON.parse(data);
-        playAudio(data.literal);
+        //playAudio(data.literal);
+    });
+}
+
+function gotNext() {
+    var imgsrc = document.getElementById("food").src;
+    $.post("/image", {imgsrc: imgsrc}, function (data){
+        console.log("Got Next: ");
     });
 }
 
@@ -1269,8 +1276,8 @@ function uploadDynamicVocab() {
 }
 
 $(document).ready(function() {
-    initWebSocket();
-    playAudio('welcome to foody');
+    //initWebSocket();
+    //playAudio('welcome to foody');
 
     // startSRRecording();
     // stopRecording();

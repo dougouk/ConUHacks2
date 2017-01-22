@@ -15,6 +15,11 @@ def nlu():
     ttnlu = text_to_NLU(request.form['text'])
     return json.dumps(ttnlu)
 
+@app.route('/image', methods=['POST'])
+def image():
+	print(request.form['imagesrc'])
+	return "hi"
+
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
