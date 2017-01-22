@@ -46,6 +46,7 @@ function test(){
 }
 
 function getInfo() {
+    playAudio('what about this one');
     var imgsrc =document.getElementById("food").src;
     console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imgsrc}, function (data){
@@ -54,6 +55,7 @@ function getInfo() {
 }
 
 function gotNext() {
+    playAudio('you got it bro');
     document.getElementById("food").src=function(){
         if (imageNum < 5) imageNum++;
         else imageNum = 1;
