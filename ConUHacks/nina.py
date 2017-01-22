@@ -54,8 +54,8 @@ nlu_headers = {
 def text_to_NLU(text):
     nlu_data = {
         "appName": "ConUHacks",
-        "cloudModelVersion": "1.0.3",
-        "companyName": "ConUDougOuk",
+        "cloudModelVersion": "1.0.0",
+        "companyName": "SamCoJan2017",
         "nlu_engine": "NLE",
         "text": text
     }
