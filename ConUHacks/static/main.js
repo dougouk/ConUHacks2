@@ -24,6 +24,14 @@ var currentCommand;
 // The WebSocket
 var socket;
 
+function getNLU(text) {
+    $.post("/nlu", {
+        text: text,
+    }, function(data) {
+        console.log(data);
+    });
+}
+
 function initWebSocket() {
 
     socket = new WebSocket("wss://" + sHost + ":" + sPort + "/" + socketPath); // The WebSocket must be secure "wss://"
@@ -67,9 +75,9 @@ function initWebSocket() {
         }
         else
         { // event.data should be text and you can parse it
-            console.log(event);
+            // console.log(event);
             var response = JSON.parse(event.data);
-            console.log(response);
+            // console.log(response);
 
             if (response.ControlData)
             {
@@ -157,7 +165,12 @@ function initWebSocket() {
                     }
                     currentCommand = null;
                 }
+                else if (response.QueryResult.result_type === "NinaDoNTE" && response.QueryResult.transcription) {
+                    console.log("Getting NLU.");
+                    getNLU(response.QueryResult.transcription);
+                }
                 else if ($.inArray(response.QueryResult.result_type, ["NinaDoMREC", "NinaDoNTE", "NinaDoNR"]) >= 0 ) {
+                    // console.log(response.QueryResultt);
                     $('#sr_results').text(JSON.stringify(response, null, 4));
                     if (currentCommand == "NinaDoSpeechRecognition_fromAudioFile" && response.QueryResult.final_response) {
                         ui_stopSRRecording();
@@ -749,8 +762,8 @@ function stopRecording() {
 function startSRRecording() {
     // ui_startSRRecording();
 
-    var engine = "--";
-    var mode = "accurate";
+    var engine = "NTE";
+    var mode = "fast";
 
     socket.send(JSON.stringify({
         command: {
@@ -765,7 +778,7 @@ function startSRRecording() {
 }
 
 function stopSRRecording() {
-    ui_stopSRRecording();
+    // ui_stopSRRecording();
     stopRecording();
 }
 
