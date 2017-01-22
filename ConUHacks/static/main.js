@@ -47,9 +47,8 @@ function test(){
 
 function getInfo() {
     playAudio('what about this one');
-    var imgsrc =document.getElementById("food").src;
     console.log("imageNum: " + imageNum);
-    $.post("/image", {imgsrc: imgsrc}, function (data){
+    $.post("/image", {imgsrc: imageNum}, function (data){
         console.log("Got Next: "+ data);
         googleMaps(data);
     });
@@ -60,7 +59,7 @@ function gotNext() {
     document.getElementById("food").src=function(){
         if (imageNum < 5) imageNum++;
         else imageNum = 1;
-        return '/static/images/' + imageNum + '.jpg';
+        return 'static/images/' + imageNum + '.jpg';
     }();
 }
 

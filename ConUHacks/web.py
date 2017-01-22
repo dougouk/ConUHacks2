@@ -7,8 +7,9 @@ from clarifai.rest import ClarifaiApp
 
 appp = ClarifaiApp()
 
-def getImageTags(url):
-	output=appp.tag_files([url]
+def getImageTags(number):
+	filename = 'ConUHacks/static/images/{}.jpg'.format(number)
+	output=appp.tag_files([filename]
 		,model='food-items-v1.0')['outputs'][0]['data']['concepts']
 	list=[]
 	for name in output:
