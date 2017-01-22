@@ -26,7 +26,9 @@ var socket;
 
 function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
-        console.log(data);
+        console.log("Got NLU: " + data);
+        data = JSON.parse(data)
+        playAudio(data.literal);
     });
 }
 
@@ -45,6 +47,7 @@ function playAudio(text) {
         if (request.readyState === 4 && request.status === 200) {
             var arrayBuffer = request.response;
             if (arrayBuffer) {
+                console.log("Playing audio: " + text);
                 audioPlayer.play(arrayBuffer);
             }
         }
@@ -78,6 +81,8 @@ function initWebSocket() {
         }));
 
         currentCommand = "NinaStartSession";
+
+        startSRRecording();
     };
 
     socket.onclose = function () {
@@ -123,7 +128,7 @@ function initWebSocket() {
                     else if (currentCommand == "NinaEnrollUser" || currentCommand == "NinaAuthenticateUser") {
                         $('#vp_results').text(JSON.stringify(response, null, 4));
                     }
-                    else alert(JSON.stringify(response));
+                    else console.log("Alert: " + JSON.stringify(response));
                 }
                 else if (response.ControlData === "end-of-speech") {
                     if (currentCommand == "NinaPlayAudioWithBargeIn") {
@@ -158,9 +163,9 @@ function initWebSocket() {
                         $('#vp_results').text(JSON.stringify(response, null, 4));
                         vpStopAuthenticateRecording();
                     }
-                    else alert(JSON.stringify(response));
+                    else console.log("Alert: " + JSON.stringify(response));
                 }
-                else alert(JSON.stringify(response));
+                else console.log("Alert: " + JSON.stringify(response));
             }
             else if (response.QueryResult)
             {
@@ -292,7 +297,7 @@ function initWebSocket() {
                     $('#kq_upload_result').text(JSON.stringify(response, null, 4));
                     currentCommand = null;
                 }
-                else alert(JSON.stringify(response));
+                else console.log("Alert: " + JSON.stringify(response));
             }
             else if (response.QueryInfo)
             {
@@ -412,12 +417,12 @@ function initWebSocket() {
                     $('#kq_upload_result').text(JSON.stringify(response, null, 4));
                     currentCommand = null;
                 }
-                else alert(JSON.stringify(response));
+                else console.log("Alert: " + JSON.stringify(response));
             }
             else if (response.QueryError)
             {
                 if ($.inArray(response.QueryError.result_type, ["NinaStartSession", "NinaEndSession", "NinaPlayAudio"]) >= 0 ) {
-                    alert(JSON.stringify(response));
+                    console.log("Alert: " + JSON.stringify(response));
                     currentCommand = null;
                 }
                 else if (response.QueryError.result_type === "NinaPlayAudioWithBargeIn") {
@@ -502,9 +507,9 @@ function initWebSocket() {
                     $('#kq_upload_result').text(JSON.stringify(response, null, 4));
                     currentCommand = null;
                 }
-                else alert(JSON.stringify(response));
+                else console.log("Alert: " + JSON.stringify(response));
             }
-            else alert(JSON.stringify(response));
+            else console.log("Alert: " + JSON.stringify(response));
         }
     };
 }
@@ -1262,3 +1267,11 @@ function uploadDynamicVocab() {
     }));
     currentCommand = "UploadDynamicVocabulary";
 }
+
+$(document).ready(function() {
+    initWebSocket();
+    playAudio('welcome to foody');
+
+    // startSRRecording();
+    // stopRecording();
+});
