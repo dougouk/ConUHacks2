@@ -11,6 +11,6 @@ pip3 install -r requirements.txt
 ## running web app locally
 
 ```shell
-gunicorn ConUHacks.web:app
+gunicorn ConUHacks.web:app --timeout 120
 open http://localhost:8000/
 ```
