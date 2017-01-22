@@ -1,4 +1,5 @@
 import json
+import http.client
 
 from flask import Flask, request
 from .nina import text_to_speech, text_to_NLU
@@ -12,7 +13,33 @@ def getImageTags(url):
 	list=[]
 	for name in output:
 		list.append(name['name'])
-	return list
+
+	conn = http.client.HTTPConnection("hackaton.ypcloud.io")
+
+	diction = { "search":[{
+	"searchType":"PROXIMITY",
+	"collection":"MERCHANT",
+	"what": food,
+	"where":{
+	"type":"GEO",
+	"value":'45.4754418,-73.5863705' }
+	}]}
+	payload = json.dumps(diction)
+	#payload = "  { \"search\":[{\r\n\"searchType\":\"PROXIMITY\",\r\n\"collection\":\"MERCHANT\",\r\n\"what\": \"burger\",\r\n\"where\":{\r\n\"type\":\"GEO\",\r\n\"value\":\"45.4754418,-73.5863705\" }\r\n}]}"
+
+	headers = {
+		'content-type': "application/json",
+		'cache-control': "no-cache",
+		'postman-token': "93188d7e-c08e-6030-30d8-71c5de344938"
+		}
+
+	conn.request("POST", "/search", payload, headers)
+
+	res = conn.getresponse()
+	data = res.read().decode("utf-8")
+	json_obj = json.loads(data)
+
+	return json_obj['searchResult'][0]["merchants"]
 
 
 app = Flask(__name__)
