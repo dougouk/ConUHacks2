@@ -11,7 +11,7 @@ var nmaidKey = "0d11e9c5b897eefdc7e0aad840bf4316a44ea91f0d76a2b053be294ce95c7439
 var appName = "ConUHacks";
 var companyName = "ConUDougOuk";
 var cloudModelVersion = "1.0.4";
-var clientAppVersion;
+var clientAppVersion = "0.1.0";
 var defaultAgent;
 
 // Audio handlers
@@ -45,6 +45,7 @@ function initWebSocket() {
                 appName: appName,
                 companyName: companyName,
                 cloudModelVersion: cloudModelVersion,
+                clientAppVersion: clientAppVersion,
                 // agentURL: defaultAgent,
             }
         }));
@@ -66,6 +67,7 @@ function initWebSocket() {
         }
         else
         { // event.data should be text and you can parse it
+            console.log(event);
             var response = JSON.parse(event.data);
             console.log(response);
 
@@ -136,7 +138,7 @@ function initWebSocket() {
             else if (response.QueryResult)
             {
                 if (response.QueryResult.result_type === "NinaStartSession") {
-                    ui_sessionHasStarted();
+                    // ui_sessionHasStarted();
                     currentCommand = null;
                 }
                 else if (response.QueryResult.result_type === "NinaEndSession") {
@@ -745,35 +747,21 @@ function stopRecording() {
 }
 
 function startSRRecording() {
-    ui_startSRRecording();
+    // ui_startSRRecording();
 
-    var engine = document.getElementById("sr_engine").value;
-    var mode = document.getElementById("nte_mode").value;
+    var engine = "--";
+    var mode = "accurate";
 
-    if ($('#sr_formURL')[0].checked) {
-        socket.send(JSON.stringify({
-            command: {
-                name: "NinaDoSpeechRecognition",
-                logSecurity: $('#sr_logSecurity')[0].value,
-                sr_engine: engine,
-                sr_engine_parameters: {"operating_mode":mode},
-                sr_audio_file: $('#srFromFile_url')[0].value // https://dl.dropboxusercontent.com/s/23knztcspmmrcii/9.%20Famous%20Full%20Obama%20Speech%20on%20Race%20Relations%20-%20A%20More%20Perfect%20Union.mp4
-            }
-        }));
-        currentCommand = "NinaDoSpeechRecognition_fromAudioFile";
-    }
-    else {
-        socket.send(JSON.stringify({
-            command: {
-                name: "NinaDoSpeechRecognition",
-                logSecurity: $('#sr_logSecurity')[0].value,
-                sr_engine: engine,
-                sr_engine_parameters: {"operating_mode":mode}
-            }
-        }));
-        currentCommand = "NinaDoSpeechRecognition";
-        record();
-    }
+    socket.send(JSON.stringify({
+        command: {
+            name: "NinaDoSpeechRecognition",
+            logSecurity: "off",
+            sr_engine: engine,
+            sr_engine_parameters: {"operating_mode":mode}
+        }
+    }));
+    currentCommand = "NinaDoSpeechRecognition";
+    record();
 }
 
 function stopSRRecording() {
