@@ -1298,7 +1298,11 @@ function uploadDynamicVocab() {
 //   return pos;
 // }
 
-
+function googleMaps(address){
+  var adrURL = address.split(' ').join('+');
+  var mapURL = "https://www.google.ca/maps/place/" + adrURL
+  window.open(mapURL, "_blank");
+}
 
 
 $(document).ready(function() {
@@ -1307,4 +1311,6 @@ $(document).ready(function() {
 
     // startSRRecording();
     // stopRecording();
+
+
 });
