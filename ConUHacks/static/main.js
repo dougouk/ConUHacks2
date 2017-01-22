@@ -27,7 +27,7 @@ var socket;
 function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
         console.log("Got NLU: " + data);
-        data = JSON.parse(data)
+        data = JSON.parse(data);
         playAudio(data.literal);
     });
 }
