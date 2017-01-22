@@ -4,10 +4,10 @@ from flask import Flask, request
 from .nina import text_to_speech, text_to_NLU
 from clarifai.rest import ClarifaiApp
 
-app = ClarifaiApp()
+appp = ClarifaiApp()
 
 def getImageTags(url):
-	output=app.tag_urls([url]
+	output=appp.tag_files([url]
 		,model='food-items-v1.0')['outputs'][0]['data']['concepts']
 	list=[]
 	for name in output:
@@ -28,7 +28,8 @@ def nlu():
 
 @app.route('/image', methods=['POST'])
 def image():
-	print(request.form['imgsrc'])
+	output=getImageTags(request.form['imgsrc'])
+	print(output)
 	return "hi"
 
 @app.route('/')

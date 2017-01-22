@@ -40,11 +40,12 @@ function test(){
 }
 
 function gotNext() {
-    var imgsrc = $('food').attr('src', function(){
-        if (imageNum < 5) imageNum++;
-        else imageNum = 1;
-        return '/static/images/' + imageNum + '.jpg';
-    });
+    document.getElementById("food").src=function(){
+            if (imageNum < 5) imageNum++;
+            else imageNum = 1;
+            return '/static/images/' + imageNum + '.jpg';
+        }();
+    var imgsrc =document.getElementById("food").src;
     console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imgsrc}, function (data){
         console.log("Got Next: ");
