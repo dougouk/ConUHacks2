@@ -31,7 +31,13 @@ function getNLU(text) {
     $.post("/nlu", {text: text}, function (data) {
         console.log("Got NLU: " + data);
         data = JSON.parse(data);
-        playAudio(data.literal);
+        if (data.intent === "NEXT_IMAGE") {
+            console.log("Showing next image.");
+            gotNext();
+        } else if (data.intent === "THIS_IMAGE") {
+            getInfo();
+        }
+        // playAudio(data.literal);
     });
 }
 
@@ -39,17 +45,22 @@ function test(){
     console.log("test");
 }
 
-function gotNext() {
-    document.getElementById("food").src=function(){
-            if (imageNum < 5) imageNum++;
-            else imageNum = 1;
-            return '/static/images/' + imageNum + '.jpg';
-        }();
+function getInfo() {
+    playAudio('what about this one');
     var imgsrc =document.getElementById("food").src;
     console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imgsrc}, function (data){
         console.log("Got Next: ");
     });
+}
+
+function gotNext() {
+    playAudio('you got it bro');
+    document.getElementById("food").src=function(){
+        if (imageNum < 5) imageNum++;
+        else imageNum = 1;
+        return '/static/images/' + imageNum + '.jpg';
+    }();
 }
 
 function playAudio(text) {
