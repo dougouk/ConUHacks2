@@ -10,7 +10,7 @@ var nmaidKey = "0d11e9c5b897eefdc7e0aad840bf4316a44ea91f0d76a2b053be294ce95c7439
 // For the NinaStartSession COMMAND message. All set in the startSession() index.html page
 var appName = "ConUHacks";
 var companyName = "ConUDougOuk";
-var cloudModelVersion = "1.0.4";
+var cloudModelVersion = "1.0.6";
 var clientAppVersion = "0.1.0";
 var defaultAgent;
 
@@ -25,11 +25,30 @@ var currentCommand;
 var socket;
 
 function getNLU(text) {
-    $.post("/nlu", {
-        text: text,
-    }, function(data) {
+    $.post("/nlu", {text: text}, function (data) {
         console.log(data);
     });
+}
+
+function playAudio(text) {
+    var request = new XMLHttpRequest();
+
+    request.open("POST", "/tts", true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.responseType = "arraybuffer";
+
+    request.send(JSON.stringify({
+        text: text,
+    }));
+
+    request.onreadystatechange = function(event) {
+        if (request.readyState === 4 && request.status === 200) {
+            var arrayBuffer = request.response;
+            if (arrayBuffer) {
+                audioPlayer.play(arrayBuffer);
+            }
+        }
+    };
 }
 
 function initWebSocket() {
@@ -575,36 +594,6 @@ function dialogNCE() {
             }
         }));
         currentCommand = "NinaDoDialog_NCE";
-    }
-}
-
-function playAudio() {
-
-    if (!$("#playaudio_button").hasClass("disabled")) {
-        $('#playaudio_results').text("");
-
-        var inputText = fixLineBreaks($("#playaudio_text").val());
-        var engine = document.getElementById("playaudio_sr_engine").value;
-        var mode = document.getElementById("playaudio_nte_mode").value;
-
-        socket.send(JSON.stringify({
-            command: {
-                name: "NinaPlayAudio",
-                logSecurity: $('#tts_logSecurity')[0].value,
-                text: inputText,
-                tts_type: "text",
-                "barge-in": $('#barge-in')[0].checked,
-                sr_engine: engine,
-                sr_engine_parameters: {"operating_mode":mode}
-            }
-        }));
-        currentCommand = "NinaPlayAudio";
-
-        if ($('#barge-in')[0].checked) {
-            ui_startBargeIn();
-            currentCommand = "NinaPlayAudioWithBargeIn";
-            record();
-        }
     }
 }
 
