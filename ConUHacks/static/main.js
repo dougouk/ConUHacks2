@@ -28,7 +28,7 @@ var socket;
 var imageNum = 1;
 
 function getNLU(text) {
-    $.post("/nlu", {text: text}, function (data) {
+    $.post("/nlu", {text: text}).done(function (data) {
         console.log("Got NLU: " + data);
         data = JSON.parse(data);
         if (data.intent === "NEXT_IMAGE") {
@@ -42,6 +42,10 @@ function getNLU(text) {
             startSRRecording();
         }
         // playAudio(data.literal);
+    }).fail(function(xhr, status, error) {
+        console.log('error');
+        playAudio('Sorry, n l u is not available')
+        startSRRecording();
     });
 }
 
@@ -1330,7 +1334,7 @@ function googleMaps(address){
 
 $(document).ready(function() {
     initWebSocket();
-    // playAudio('welcome foody');
+    playAudio('welcome foody food finder');
 
     // startSRRecording();
     // stopRecording();
