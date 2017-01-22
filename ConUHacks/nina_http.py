@@ -36,7 +36,7 @@ def text_to_speech(text):
 def speech_to_text(speech_url):
     voice_data = {
         "sr_audio_file": speech_url,
-        "sr_engine": "MREC"
+        "sr_engine": "NTE"
     }
 
     stt_r = requests.post('https://nim-rd.nuance.mobi:9443/nina-webapi/DoSpeechRecognition/', headers=headers, data=json.dumps(voice_data))
