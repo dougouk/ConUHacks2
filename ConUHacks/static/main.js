@@ -50,7 +50,8 @@ function getInfo() {
     var imgsrc =document.getElementById("food").src;
     console.log("imageNum: " + imageNum);
     $.post("/image", {imgsrc: imgsrc}, function (data){
-        console.log("Got Next: ");
+        console.log("Got Next: "+ data);
+        googleMaps(data);
     });
 }
 

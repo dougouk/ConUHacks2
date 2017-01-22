@@ -13,7 +13,9 @@ def getImageTags(url):
 	list=[]
 	for name in output:
 		list.append(name['name'])
-
+	food = ''
+	for x in range(5):
+		food += list[x] + " "
 	conn = http.client.HTTPConnection("hackaton.ypcloud.io")
 
 	diction = { "search":[{
@@ -39,7 +41,7 @@ def getImageTags(url):
 	data = res.read().decode("utf-8")
 	json_obj = json.loads(data)
 
-	return json_obj['searchResult'][0]["merchants"]
+	return json_obj['searchResult'][0]["merchants"][0]["businessName"]
 
 
 app = Flask(__name__)
@@ -64,8 +66,8 @@ def nlu():
 @app.route('/image', methods=['POST'])
 def image():
 	output=getImageTags(request.form['imgsrc'])
-	print(output)
-	return "hi"
+	
+	return output
 
 @app.route('/')
 def index():
